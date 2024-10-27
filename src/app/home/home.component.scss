@@ -1,0 +1,43 @@
+$font-stack: Helvetica, sans-serif;
+
+#main_component {
+  text-align: center;
+  font-family: $font-stack;
+  color:aliceblue;
+  background-color: #00006060;
+  padding: 8%;
+  border-radius: 35px;
+}
+
+a {
+  background-color: #093d79;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  margin-inline: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 100%;
+  border-radius: 35px;
+}
+
+h2 {
+  font-size: 200%;
+  padding-bottom : 2%;
+}
+
+p {
+  font-size: 150%;
+  padding-bottom: 2%;
+}
+
+:host {
+  margin:0;
+  padding:0;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 90%;
+}
