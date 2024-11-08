@@ -1,12 +1,14 @@
 <div>
     @if (id == null) {
         <h2>Liste des catégories racines</h2>
+    } @else {
+        <h2>Liste des catégories enfants de {{parentCategory?.name}}</h2>
     }
 </div>
 
 <table>
 @for (category of childrenCategory; track $index) {
-    <tr class="category">
+    <tr class="category" [routerLink]="['/list', category.id]">
         <td class="img_column">
             <img src="../../assets/arrow-right.png" />
         </td>
