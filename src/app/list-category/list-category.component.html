@@ -1,1 +1,21 @@
-<p>list-category works!</p>
+<div>
+    @if (id == null) {
+        <h2>Liste des catégories racines</h2>
+    }
+</div>
+
+<table>
+@for (category of childrenCategory; track $index) {
+    <tr class="category">
+        <td class="img_column">
+            <img src="../../assets/arrow-right.png" />
+        </td>
+        <td>
+            <p class="name">{{category.name}}</p>
+        </td>
+        <td class="date">
+            <p>{{category.creationDate.toLocaleString()}}</p>
+        </td>
+    </tr>
+}
+</table>

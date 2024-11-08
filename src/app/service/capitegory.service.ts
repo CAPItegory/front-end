@@ -33,7 +33,7 @@ export class CapitegoryService
                 if (res == null) {
                     return null;
                 }
-                return new Category(res.id, res.name, res.creationDate, res.isRoot, res.children)
+                return this.toCategory(res)
             })
     }
 
@@ -45,7 +45,7 @@ export class CapitegoryService
                 if (res == null) {
                     return null;
                 }
-                return new Category(res.id, res.name, res.creationDate, res.isRoot, res.children)
+                return this.toCategory(res)
             })
     }
 
@@ -101,10 +101,18 @@ export class CapitegoryService
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
-                    return null;
+                    return [];
                 }
-                return res
+                let categories = []
+                for(let id in res) {
+                    categories.push(this.toCategory(res[id]))
+                }
+                return categories
             })
+    }
+
+    private toCategory(res: any) : Category {
+        return new Category(res.id, res.name, res.creationDate, res.isRoot, res.children)
     }
 
 }
