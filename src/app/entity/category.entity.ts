@@ -8,11 +8,11 @@ export class Category
     public isRoot: boolean;
     public children: Category[];
 
-    public constructor(id:UUID, name:string, creationDate:Date, isRoot:boolean, children:Category[])
+    public constructor(id:UUID, name:string, creationDate:string, isRoot:boolean, children:Category[])
     {
         this.id = id;
         this.name = name;
-        this.creationDate = creationDate;
+        this.creationDate = new Date(creationDate);
         this.isRoot = isRoot;
         this.children = children;
     }

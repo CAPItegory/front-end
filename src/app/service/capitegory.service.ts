@@ -33,7 +33,7 @@ export class CapitegoryService
                 if (res == null) {
                     return null;
                 }
-                return new Category(res.id, res.name, res.creationDate, res.isRoot, res.children)
+                return this.toCategory(res)
             })
     }
 
@@ -45,7 +45,7 @@ export class CapitegoryService
                 if (res == null) {
                     return null;
                 }
-                return new Category(res.id, res.name, res.creationDate, res.isRoot, res.children)
+                return this.toCategory(res)
             })
     }
 
@@ -71,40 +71,48 @@ export class CapitegoryService
     {
         let params = new URLSearchParams()
         if (isRoot != null) {
-            params.append("IsRoot", isRoot.valueOf.toString())
+            params.append("IsRoot", isRoot.valueOf().toString())
         }
         if (beforeDate != null) {
-            params.append("BeforeDate", beforeDate.valueOf.toString())
+            params.append("BeforeDate", beforeDate.valueOf().toString())
         }
         if (afterDate != null) {
-            params.append("AfterDate", afterDate.valueOf.toString())
+            params.append("AfterDate", afterDate.valueOf().toString())
         }
         if (parentId != null) {
-            params.append("ParentId", parentId.valueOf.toString())
+            params.append("ParentId", parentId.valueOf().toString())
         }
         if (orderByName != null) {
-            params.append("OrderByName", orderByName.valueOf.toString())
+            params.append("OrderByName", orderByName.valueOf().toString())
         }
         if (orderbyCreationDate != null) {
-            params.append("OrderByCreationDate", orderbyCreationDate.valueOf.toString())
+            params.append("OrderByCreationDate", orderbyCreationDate.valueOf().toString())
         }
         if (orderByNumberOfChildren != null) {
-            params.append("OrderByNumberOfChildren", orderByNumberOfChildren.valueOf.toString())
+            params.append("OrderByNumberOfChildren", orderByNumberOfChildren.valueOf().toString())
         }
         if (pageNumber != null) {
-            params.append("PageNumber", pageNumber.valueOf.toString())
+            params.append("PageNumber", pageNumber.valueOf().toString())
         }
         if (pageSize != null) {
-            params.append("PageSize", pageSize.valueOf.toString())
+            params.append("PageSize", pageSize.valueOf().toString())
         }
         return await fetch(this.apiUrl + "search?" + params)
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
-                    return null;
+                    return [];
                 }
-                return res
+                let categories = []
+                for(let id in res) {
+                    categories.push(this.toCategory(res[id]))
+                }
+                return categories
             })
+    }
+
+    private toCategory(res: any) : Category {
+        return new Category(res.id, res.name, res.creationDate, res.isRoot, res.children)
     }
 
 }
