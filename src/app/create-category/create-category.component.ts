@@ -1,12 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
+import { CapitegoryService } from '../service/capitegory.service';
+import { Category } from '../entity/category.entity';
 
 @Component({
   selector: 'app-create-category',
   standalone: true,
-  imports: [],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-category.component.html',
   styleUrl: './create-category.component.scss'
 })
 export class CreateCategoryComponent {
+  @Input() parentId: string | null = null
 
+  parentCategory: Category | null = null
+
+  constructor(private capitegoryService: CapitegoryService) {}
+
+  categoryForm = new FormGroup({
+      name : new FormControl('')
+  });
+
+  parents: Category[] | null = null
+
+  async ngOnInit() {
+    if (this.parentId != null) {
+      this.parentCategory = await this.capitegoryService.getById(this.parentId);
+    }
+  }
+
+  createCategory(): void {
+    this.capitegoryService.create(this.categoryForm.value.name ?? "", this.parentId);
+    this.categoryForm.reset();
+  }
 }
