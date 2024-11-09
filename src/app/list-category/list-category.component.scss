@@ -1,3 +1,4 @@
+
 img {
     object-fit: contain;
     max-width: 100%;
@@ -64,4 +65,8 @@ p, h2 {
         transform: scaleX(1);
         transform-origin: bottom center;
     }
+}
+
+.title {
+    padding-left: 5%;
 }
