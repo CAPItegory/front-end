@@ -1,5 +1,5 @@
 #bar {
-    background : linear-gradient(45deg, #00d4ff, #090979, #020024);
+    background: linear-gradient(45deg, #00d4ff, #090979, #020024);
     height: 10%;
     width: 100%;
     display: flex;
@@ -8,26 +8,50 @@
 #logo {
     align-items: center;
     display: flex;
-    padding-block:1%
+    padding-block:1%;
+
+    img {
+        width: 10%;
+        padding-inline:1%;
+    }
+}
+
+.nav-button {
+    color: white;
+    margin-left: 30%;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        transform: scaleX(0);
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: white;
+        transform-origin: bottom center;
+        transition: transform 0.25s ease-out;
+    }
+    &:hover::after {
+        transform: scaleX(1);
+        transform-origin: bottom center;
+    }
+
+    img {
+        width: 2.5rem;
+        height: 2.5rem;
+        object-fit: contain;
+    }
 }
 
 .navigation {
     align-items: center;
-    text-align:right;
+    justify-content: end;
     display: flex;
-    font-size: 125%;
-    padding-left: 2%;
-    background-color: #093d79;
-    border: none;
-    color: white;
-    padding: 5px 15px;
-    margin-inline: 8px;
-    border-radius: 40px;
-}
-
-img {
-    width : 3%;
-    padding-inline:1%
+    margin-left: auto;
+    margin-right: 10%;
+    width: 70%;
 }
 
 #title {
