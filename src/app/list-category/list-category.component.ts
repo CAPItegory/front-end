@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, SearchBarComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })

@@ -6,6 +6,8 @@
     }
 </div>
 
+<app-search-bar></app-search-bar>
+
 <div class="list">
 @for (category of childrenCategory; track $index) {
     <div class="category" [routerLink]="['/list', category.id]">

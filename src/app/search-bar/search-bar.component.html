@@ -1,0 +1,33 @@
+<form class="search-bar">
+    <div class="wrapped">
+        <div class="field-input">
+            <select id="isRoot">
+                <option value="all">All elements</option>
+                <option value="yes">Only root</option>
+                <option value="no">Only non-root</option>
+            </select>
+        </div>
+        <div class="field-input">
+            <label class="date-label">After date: </label>
+            <input type="date" id="afterDate">
+        </div>
+        <div class="field-input">
+            <label class="date-label">Before date: </label>
+            <input type="date" id="beforeDate">
+        </div>
+    </div>
+    <div class="wrapped">
+        <div class="field-input">
+            <input type="checkbox" id="orderByName" (input)="onNewOrderByNameValue($event)">
+            <label>Order by name</label>
+        </div>
+        <div class="field-input">
+            <input type="checkbox" id="orderByCreationDate">
+            <label>Order by date of creation</label>
+        </div>
+        <div class="field-input">
+            <input type="checkbox" id="orderByNumberOfChildren">
+            <label>Order by number of children</label>
+        </div>
+    </div>
+</form>
