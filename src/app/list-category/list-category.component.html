@@ -1,23 +1,37 @@
-<div class="title">
-    @if (id == null) {
-        <h2>Liste des catégories racines</h2>
-    } @else {
-        <h2>Liste des catégories enfants de {{parentCategory?.name}}</h2>
+<article>
+    <div class="title">
+        @if (id == null) {
+            <h2>Liste des catégories racines</h2>
+        } @else {
+            <h2>Liste des catégories enfants de {{parentCategory?.name}}</h2>
+        }
+    </div>
+
+    <div class="list">
+    @for (category of childrenCategory; track $index) {
+        <div class="category" [routerLink]="['/list', category.id]">
+            <div class="img_column">
+                <img src="../../assets/arrow-right.png" />
+            </div>
+            <div>
+                <p class="name">{{category.name}}</p>
+            </div>
+            <div class="date">
+                <p>{{category.creationDate.toLocaleString()}}</p>
+            </div>
+        </div>
     }
+    </div>
+</article>
+<aside>
+    <div class="nav-button">
+        <button (click)="showCreatePopUp()">
+            <img src="../../assets/create.svg" />
+        </button>
+    </div>
+</aside>
+
+<div id="create-category-popup" [hidden]="isHiddenPopUp">
+    <app-create-category [parentId]="id"></app-create-category>
 </div>
 
-<div class="list">
-@for (category of childrenCategory; track $index) {
-    <div class="category" [routerLink]="['/list', category.id]">
-        <div class="img_column">
-            <img src="../../assets/arrow-right.png" />
-        </div>
-        <div>
-            <p class="name">{{category.name}}</p>
-        </div>
-        <div class="date">
-            <p>{{category.creationDate.toLocaleString()}}</p>
-        </div>
-    </div>
-}
-</div>

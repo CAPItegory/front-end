@@ -2,17 +2,20 @@ import { Component, Input } from '@angular/core';
 import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { CreateCategoryComponent } from "../create-category/create-category.component";
 
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CreateCategoryComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
 export class ListCategoryComponent {
 
   @Input() id: string | null = null
+
+  isHiddenPopUp: boolean = true;
   
   isRoot: boolean | null = null
   beforeDate: Date | null = null
@@ -36,6 +39,10 @@ export class ListCategoryComponent {
       }
       this.loadChildren()
     });
+  }
+
+  public showCreatePopUp() {
+    this.isHiddenPopUp = false;
   }
 
   private async loadChildren() {
