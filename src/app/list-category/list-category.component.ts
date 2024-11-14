@@ -15,7 +15,7 @@ export class ListCategoryComponent {
 
   @Input() id: string | null = null
   
-  isRoot: boolean | null = this.id != null
+  isRoot: boolean | null = this.id == null
   beforeDate: Date | null = null
   afterDate: Date | null = null
   orderByName: boolean = true
@@ -55,6 +55,7 @@ export class ListCategoryComponent {
   }
 
   async onNewIsRoot(newValue: boolean | null) {
+    console.log(newValue)
     this.isRoot = newValue;
     this.loadChildren()
   }
@@ -71,7 +72,7 @@ export class ListCategoryComponent {
 
   private async loadChildren() {
     this.childrenCategory = await this.capitegoryService.search(
-      this.isRoot || this.id == null, 
+      this.isRoot, 
       this.beforeDate, 
       this.afterDate, 
       this.id, 
