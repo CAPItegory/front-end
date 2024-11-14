@@ -3,11 +3,12 @@ import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { PaginationBarComponent } from '../pagination-bar/pagination-bar.component';
 
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink, SearchBarComponent],
+  imports: [RouterLink, SearchBarComponent, PaginationBarComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
@@ -23,6 +24,7 @@ export class ListCategoryComponent {
   orderByNumberOfChild: boolean = false
   pageNumber: number = 1
   pageSize: number = 5
+  totalPages: number = 0
 
   parentCategory: Category | null = null
   childrenCategory: Category[] = []
@@ -71,7 +73,7 @@ export class ListCategoryComponent {
   }
 
   private async loadChildren() {
-    this.childrenCategory = await this.capitegoryService.search(
+    var paginatedCategories = await this.capitegoryService.search(
       this.isRoot, 
       this.beforeDate, 
       this.afterDate, 
@@ -81,6 +83,9 @@ export class ListCategoryComponent {
       this.orderByNumberOfChild, 
       this.pageNumber, 
       this.pageSize);
+    this.childrenCategory = paginatedCategories.categories;
+    console.log(paginatedCategories)
+    this.totalPages = paginatedCategories.numberOfPage;
   }
 
 }
