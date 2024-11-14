@@ -6,7 +6,13 @@
     }
 </div>
 
-<app-search-bar></app-search-bar>
+<app-search-bar [id]="id" (orderByNameChange)="onNewOrderByNameValue($event)"
+(orderByCreationDate)="onNewOrderByCreationDate($event)"
+(orderByNumberOfChildren)="onNewOrderByNumberOfChildren($event)"
+(isRootChange)="onNewIsRoot($event)"
+(afterDateChange)="onNewAfterDate($event)"
+(beforeDateChange)="onNewBeforeDate($event)"
+></app-search-bar>
 
 <div class="list">
 @for (category of childrenCategory; track $index) {

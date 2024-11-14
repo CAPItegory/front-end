@@ -15,12 +15,12 @@ export class ListCategoryComponent {
 
   @Input() id: string | null = null
   
-  isRoot: boolean | null = null
+  isRoot: boolean | null = this.id != null
   beforeDate: Date | null = null
   afterDate: Date | null = null
-  orderByName: boolean | null = null
-  orderByCreationDate: boolean | null = null
-  orderByNumberOfChild: boolean | null = null
+  orderByName: boolean = true
+  orderByCreationDate: boolean = false
+  orderByNumberOfChild: boolean = false
   pageNumber: number = 1
   pageSize: number = 5
 
@@ -37,6 +37,36 @@ export class ListCategoryComponent {
       }
       this.loadChildren()
     });
+  }
+
+  async onNewOrderByNameValue(newValue: boolean) {
+    this.orderByName = newValue;
+    this.loadChildren()
+  }
+
+  async onNewOrderByCreationDate(newValue: boolean) {
+    this.orderByCreationDate = newValue;
+    this.loadChildren()
+  }
+
+  async onNewOrderByNumberOfChildren(newValue: boolean) {
+    this.orderByNumberOfChild = newValue;
+    this.loadChildren()
+  }
+
+  async onNewIsRoot(newValue: boolean | null) {
+    this.isRoot = newValue;
+    this.loadChildren()
+  }
+
+  async onNewAfterDate(newValue: Date | null) {
+    this.afterDate = newValue;
+    this.loadChildren()
+  }
+
+  async onNewBeforeDate(newValue: Date | null) {
+    this.beforeDate = newValue;
+    this.loadChildren()
   }
 
   private async loadChildren() {

@@ -1,32 +1,34 @@
 <form class="search-bar">
     <div class="wrapped">
-        <div class="field-input">
-            <select id="isRoot">
-                <option value="all">All elements</option>
-                <option value="yes">Only root</option>
-                <option value="no">Only non-root</option>
-            </select>
-        </div>
+        @if (id == null) {
+            <div class="field-input">
+                <select id="isRoot" (input)="onNewIsRoot($event)">
+                    <option value="yes">Only root elements</option>
+                    <option value="no">Only non-root elements</option>
+                    <option value="all">All elements</option>
+                </select>
+            </div>
+        }
         <div class="field-input">
             <label class="date-label">After date: </label>
-            <input type="date" id="afterDate">
+            <input type="date" id="afterDate" (input)="onNewAfterDate($event)">
         </div>
         <div class="field-input">
             <label class="date-label">Before date: </label>
-            <input type="date" id="beforeDate">
+            <input type="date" id="beforeDate" (input)="onNewBeforeDate($event)">
         </div>
     </div>
     <div class="wrapped">
         <div class="field-input">
-            <input type="checkbox" id="orderByName" (input)="onNewOrderByNameValue($event)">
+            <input type="checkbox" id="orderByName" (input)="onNewOrderByNameValue($event)" checked="true">
             <label>Order by name</label>
         </div>
         <div class="field-input">
-            <input type="checkbox" id="orderByCreationDate">
+            <input type="checkbox" id="orderByCreationDate" (input)="onNewOrderByCreationDate($event)">
             <label>Order by date of creation</label>
         </div>
         <div class="field-input">
-            <input type="checkbox" id="orderByNumberOfChildren">
+            <input type="checkbox" id="orderByNumberOfChildren" (input)="onNewOrderByNumberOfChildren($event)">
             <label>Order by number of children</label>
         </div>
     </div>
