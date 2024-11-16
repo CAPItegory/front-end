@@ -13,6 +13,11 @@ img {
     padding-right: 3%;
 }
 
+#header {
+    display: flex;
+    flex-direction: row;
+}
+
 p, h2 {
     color: white;
 }
@@ -20,6 +25,11 @@ p, h2 {
 button {
     background-color: inherit;
     border: none;
+    cursor: pointer;
+}
+
+#back-button {
+    height: 4rem;
 }
 
 :host {
@@ -55,6 +65,7 @@ aside {
     align-items: center;
     display: flex;
     flex-direction: row;
+    cursor: pointer;
     
 
     .name {

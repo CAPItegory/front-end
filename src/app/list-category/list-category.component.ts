@@ -81,6 +81,10 @@ export class ListCategoryComponent {
     this.loadChildren()
   }
 
+  backEvent() {
+    history.back()
+  }
+
   private async loadChildren() {
     this.childrenCategory = await this.capitegoryService.search(
       this.isRoot, 
