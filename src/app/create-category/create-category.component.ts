@@ -34,6 +34,7 @@ export class CreateCategoryComponent {
   createCategory(): void {
     this.capitegoryService.create(this.categoryForm.value.name ?? "", this.parentId);
     this.categoryForm.reset();
+    window.location.reload();
   }
 
   hidePopup(): void {
