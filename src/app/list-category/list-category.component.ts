@@ -4,11 +4,12 @@ import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CreateCategoryComponent } from "../create-category/create-category.component";
 import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { PaginationBarComponent } from '../pagination-bar/pagination-bar.component';
 
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink, CreateCategoryComponent, SearchBarComponent],
+  imports: [RouterLink, SearchBarComponent, PaginationBarComponent, CreateCategoryComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
@@ -26,7 +27,8 @@ export class ListCategoryComponent {
   orderByCreationDate: boolean = false
   orderByNumberOfChild: boolean = false
   pageNumber: number = 1
-  pageSize: number = 5
+  pageSize: number = 4
+  totalPages: number = 0
 
   parentCategory: Category | null = null
   childrenCategory: Category[] = []
@@ -98,8 +100,13 @@ export class ListCategoryComponent {
     window.location.reload();
   }
 
+  pageChange(pageNumber: number) {
+    this.pageNumber = pageNumber;
+    this.loadChildren();
+  }
+
   private async loadChildren() {
-    this.childrenCategory = await this.capitegoryService.search(
+    var paginatedCategories = await this.capitegoryService.search(
       this.isRoot, 
       this.beforeDate, 
       this.afterDate, 
@@ -109,6 +116,8 @@ export class ListCategoryComponent {
       this.orderByNumberOfChild, 
       this.pageNumber, 
       this.pageSize);
+    this.childrenCategory = paginatedCategories.categories;
+    this.totalPages = paginatedCategories.numberOfPage;
   }
 
 }

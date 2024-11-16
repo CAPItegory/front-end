@@ -43,6 +43,7 @@
         </div>
     }
     </div>
+    <app-pagination-bar [pageNumber]="pageNumber" [totalPages]="totalPages" (pageNumberChange)="pageChange($event)"></app-pagination-bar>
 </article>
 <aside>
     <div class="nav-button">

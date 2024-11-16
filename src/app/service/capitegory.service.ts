@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Category } from "../entity/category.entity";
 import { METHODS } from "node:http";
+import { PaginatedCategories } from "../entity/paginated-categories.entity";
 
 @Injectable({
     providedIn: "root"
@@ -73,7 +74,7 @@ export class CapitegoryService
 
     public async search(isRoot: boolean|null = null, beforeDate: Date|null = null, afterDate: Date|null = null, parentId: string|null = null, 
         orderByName: boolean|null = null, orderbyCreationDate: boolean|null = null, orderByNumberOfChildren: boolean|null = null, 
-        pageNumber: number|null = null, pageSize: number|null = null) : Promise<Category[]>
+        pageNumber: number|null = null, pageSize: number|null = null) : Promise<PaginatedCategories>
     {
         let params = new URLSearchParams()
         if (isRoot != null) {
@@ -107,13 +108,13 @@ export class CapitegoryService
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
-                    return [];
+                    return new PaginatedCategories([], 0, 0, 0);
                 }
                 let categories = []
-                for(let id in res) {
-                    categories.push(this.toCategory(res[id]))
+                for(let id in res.categories) {
+                    categories.push(this.toCategory(res.categories[id]))
                 }
-                return categories
+                return new PaginatedCategories(categories, res.numberOfPage, res.pageSize, res.pageNumber)
             })
     }
 
