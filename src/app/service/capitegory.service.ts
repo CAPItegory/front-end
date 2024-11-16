@@ -74,10 +74,10 @@ export class CapitegoryService
             params.append("IsRoot", isRoot.valueOf().toString())
         }
         if (beforeDate != null) {
-            params.append("BeforeDate", beforeDate.valueOf().toString())
+            params.append("BeforeDate", beforeDate.toISOString())
         }
         if (afterDate != null) {
-            params.append("AfterDate", afterDate.valueOf().toString())
+            params.append("AfterDate", afterDate.toISOString())
         }
         if (parentId != null) {
             params.append("ParentId", parentId.valueOf().toString())

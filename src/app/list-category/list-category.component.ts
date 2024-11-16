@@ -3,11 +3,12 @@ import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CreateCategoryComponent } from "../create-category/create-category.component";
+import { SearchBarComponent } from '../search-bar/search-bar.component';
 
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink, CreateCategoryComponent],
+  imports: [RouterLink, CreateCategoryComponent, SearchBarComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
@@ -17,12 +18,12 @@ export class ListCategoryComponent {
 
   isHiddenPopUp: boolean = true;
   
-  isRoot: boolean | null = null
+  isRoot: boolean | null = this.id == null
   beforeDate: Date | null = null
   afterDate: Date | null = null
-  orderByName: boolean | null = null
-  orderByCreationDate: boolean | null = null
-  orderByNumberOfChild: boolean | null = null
+  orderByName: boolean = true
+  orderByCreationDate: boolean = false
+  orderByNumberOfChild: boolean = false
   pageNumber: number = 1
   pageSize: number = 5
 
@@ -44,10 +45,40 @@ export class ListCategoryComponent {
   public showCreatePopUp() {
     this.isHiddenPopUp = false;
   }
+  async onNewOrderByNameValue(newValue: boolean) {
+    this.orderByName = newValue;
+    this.loadChildren()
+  }
+
+  async onNewOrderByCreationDate(newValue: boolean) {
+    this.orderByCreationDate = newValue;
+    this.loadChildren()
+  }
+
+  async onNewOrderByNumberOfChildren(newValue: boolean) {
+    this.orderByNumberOfChild = newValue;
+    this.loadChildren()
+  }
+
+  async onNewIsRoot(newValue: boolean | null) {
+    console.log(newValue)
+    this.isRoot = newValue;
+    this.loadChildren()
+  }
+
+  async onNewAfterDate(newValue: Date | null) {
+    this.afterDate = newValue;
+    this.loadChildren()
+  }
+
+  async onNewBeforeDate(newValue: Date | null) {
+    this.beforeDate = newValue;
+    this.loadChildren()
+  }
 
   private async loadChildren() {
     this.childrenCategory = await this.capitegoryService.search(
-      this.isRoot || this.id == null, 
+      this.isRoot, 
       this.beforeDate, 
       this.afterDate, 
       this.id, 
