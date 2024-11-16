@@ -17,6 +17,7 @@ export class ListCategoryComponent {
   @Input() id: string | null = null
 
   isHiddenPopUp: boolean = true;
+  isHiddenEditPopUp: boolean = true;
   
   isRoot: boolean | null = this.id == null
   beforeDate: Date | null = null
@@ -29,6 +30,7 @@ export class ListCategoryComponent {
 
   parentCategory: Category | null = null
   childrenCategory: Category[] = []
+  selectedChild: string | null = null
 
   constructor(private capitegoryService: CapitegoryService, private activatedRoute : ActivatedRoute) {}
 
@@ -46,8 +48,14 @@ export class ListCategoryComponent {
     this.isHiddenPopUp = false;
   }
 
+  public showEditPopUp(categoryId : string) {
+    this.selectedChild = categoryId
+    this.isHiddenEditPopUp = false;
+  }
+
   public hidePopUp() {
     this.isHiddenPopUp = true;
+    this.isHiddenEditPopUp = true;
   }
 
   async onNewOrderByNameValue(newValue: boolean) {
