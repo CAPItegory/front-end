@@ -2,19 +2,23 @@ import { Component, Input } from '@angular/core';
 import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { CreateCategoryComponent } from "../create-category/create-category.component";
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { PaginationBarComponent } from '../pagination-bar/pagination-bar.component';
 
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink, SearchBarComponent, PaginationBarComponent],
+  imports: [RouterLink, SearchBarComponent, PaginationBarComponent, CreateCategoryComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
 export class ListCategoryComponent {
 
   @Input() id: string | null = null
+
+  isHiddenPopUp: boolean = true;
+  isHiddenEditPopUp: boolean = true;
   
   isRoot: boolean | null = this.id == null
   beforeDate: Date | null = null
@@ -28,6 +32,7 @@ export class ListCategoryComponent {
 
   parentCategory: Category | null = null
   childrenCategory: Category[] = []
+  selectedChild: string | null = null
 
   constructor(private capitegoryService: CapitegoryService, private activatedRoute : ActivatedRoute) {}
 
@@ -39,6 +44,20 @@ export class ListCategoryComponent {
       }
       this.loadChildren()
     });
+  }
+
+  public showCreatePopUp() {
+    this.isHiddenPopUp = false;
+  }
+
+  public showEditPopUp(categoryId : string) {
+    this.selectedChild = categoryId
+    this.isHiddenEditPopUp = false;
+  }
+
+  public hidePopUp() {
+    this.isHiddenPopUp = true;
+    this.isHiddenEditPopUp = true;
   }
 
   async onNewOrderByNameValue(newValue: boolean) {
@@ -70,6 +89,15 @@ export class ListCategoryComponent {
   async onNewBeforeDate(newValue: Date | null) {
     this.beforeDate = newValue;
     this.loadChildren()
+  }
+
+  backEvent() {
+    history.back()
+  }
+
+  deleteCategory(id: string) {
+    this.capitegoryService.delete(id)
+    window.location.reload();
   }
 
   private async loadChildren() {

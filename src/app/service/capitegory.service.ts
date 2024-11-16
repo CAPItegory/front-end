@@ -52,10 +52,16 @@ export class CapitegoryService
 
     public async update(id: string, name: string|null = null, parentId: string|null = null)
     {
+        let query = ""
+        if (name == null) {
+            query = JSON.stringify({parent: parentId})
+        } else {
+            query = JSON.stringify({name: name, parent: parentId})
+        }
         await fetch(this.apiUrl + id, { 
             method: "PUT",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({name: name, parent: parentId}),
+            body: query,
         })
     }
 
