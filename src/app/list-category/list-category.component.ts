@@ -45,6 +45,11 @@ export class ListCategoryComponent {
   public showCreatePopUp() {
     this.isHiddenPopUp = false;
   }
+
+  public hidePopUp() {
+    this.isHiddenPopUp = true;
+  }
+
   async onNewOrderByNameValue(newValue: boolean) {
     this.orderByName = newValue;
     this.loadChildren()

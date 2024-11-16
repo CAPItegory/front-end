@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CapitegoryService } from '../service/capitegory.service';
@@ -13,6 +13,7 @@ import { Category } from '../entity/category.entity';
 })
 export class CreateCategoryComponent {
   @Input() parentId: string | null = null
+  @Output() hiddenChange: EventEmitter<boolean> = new EventEmitter()
 
   parentCategory: Category | null = null
 
@@ -33,5 +34,9 @@ export class CreateCategoryComponent {
   createCategory(): void {
     this.capitegoryService.create(this.categoryForm.value.name ?? "", this.parentId);
     this.categoryForm.reset();
+  }
+
+  hidePopup(): void {
+    this.hiddenChange.emit(true)
   }
 }

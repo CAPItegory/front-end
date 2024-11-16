@@ -40,6 +40,6 @@
 </aside>
 
 <div id="create-category-popup" [hidden]="isHiddenPopUp">
-    <app-create-category [parentId]="id"></app-create-category>
+    <app-create-category [parentId]="id" (hiddenChange)="hidePopUp()"></app-create-category>
 </div>
 
