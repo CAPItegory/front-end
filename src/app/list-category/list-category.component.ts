@@ -85,6 +85,11 @@ export class ListCategoryComponent {
     history.back()
   }
 
+  deleteCategory(id: string) {
+    this.capitegoryService.delete(id)
+    window.location.reload();
+  }
+
   private async loadChildren() {
     this.childrenCategory = await this.capitegoryService.search(
       this.isRoot, 
