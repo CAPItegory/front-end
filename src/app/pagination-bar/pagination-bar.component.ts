@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-pagination-bar',
@@ -9,4 +9,21 @@ import { Component, Input } from '@angular/core';
 })
 export class PaginationBarComponent {
   @Input() pageNumber : number = 5
+  @Input() totalPages : number = 0
+
+  @Output() pageNumberChange: EventEmitter<number> = new EventEmitter()
+
+  nextPage() {
+    if(this.pageNumber >= this.totalPages) {
+      return
+    }
+    this.pageNumberChange.emit(this.pageNumber + 1)
+  }
+
+  previousPage() {
+    if(this.pageNumber == 1) {
+      return
+    }
+    this.pageNumberChange.emit(this.pageNumber - 1)
+  }
 }

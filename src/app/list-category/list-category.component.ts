@@ -27,7 +27,7 @@ export class ListCategoryComponent {
   orderByCreationDate: boolean = false
   orderByNumberOfChild: boolean = false
   pageNumber: number = 1
-  pageSize: number = 5
+  pageSize: number = 4
   totalPages: number = 0
 
   parentCategory: Category | null = null
@@ -100,6 +100,11 @@ export class ListCategoryComponent {
     window.location.reload();
   }
 
+  pageChange(pageNumber: number) {
+    this.pageNumber = pageNumber;
+    this.loadChildren();
+  }
+
   private async loadChildren() {
     var paginatedCategories = await this.capitegoryService.search(
       this.isRoot, 
@@ -112,7 +117,6 @@ export class ListCategoryComponent {
       this.pageNumber, 
       this.pageSize);
     this.childrenCategory = paginatedCategories.categories;
-    console.log(paginatedCategories)
     this.totalPages = paginatedCategories.numberOfPage;
   }
 
