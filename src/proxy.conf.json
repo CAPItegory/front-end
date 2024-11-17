@@ -1,0 +1,13 @@
+{
+    "/api/category/*": {
+        "target": "https://localhost:8081/",
+        "secure": false,
+        "logLevel": "debug"
+    },
+
+    "/api/category": {
+        "target": "https://localhost:8081/",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

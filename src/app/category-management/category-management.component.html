@@ -1,0 +1,36 @@
+<div id="create_category">
+    @if(parentId == null && !editMode) {
+        <h2>Create a new root category</h2>
+    }
+    @else if (!editMode) {
+        <h2>Create a new category from {{parentCategory?.name}}</h2>
+    }
+    @else {
+        <h2>Edit category</h2>
+    }
+    
+    <form [formGroup]="categoryForm" (ngSubmit)="manageCategory()">
+        <label id="category_name" for="name">
+            <input type="text" id="name" placeholder="&nbsp;" formControlName="name">
+            <span class="label">New category name:</span>
+            <span class="focus-bg"></span>
+        </label>
+        @if (editMode) {
+            <label>
+                <span>Parent : </span>
+                <select formControlName="parents">
+                    <option value=""> - </option>
+                    <option value="no_parent">No parent</option>
+                    @for (parent of possibleParents; track $index) {
+                        <option value="{{parent.id}}">{{parent.name}}</option>
+                    }
+                </select>
+            </label>
+        }
+
+        <div class="row">
+            <button type="submit" id="submit" value="send">Send</button>
+            <button type="button" value="back" (click)="hidePopup()">Back</button>
+        </div>
+    </form>
+</div>
