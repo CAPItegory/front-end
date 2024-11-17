@@ -41,6 +41,7 @@ export class ListCategoryComponent {
       this.id = params.get('id');
       if (this.id != null) {
         this.parentCategory = await this.capitegoryService.getById(String(this.id));
+        this.isRoot = false;
       }
       this.loadChildren()
     });
