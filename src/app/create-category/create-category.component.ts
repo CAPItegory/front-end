@@ -3,6 +3,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
+import { PopupService } from '../service/popup.service';
+import { ServerError } from '../exceptions/server.exception';
+import { BadRequestError } from '../exceptions/bad-request.exception';
 
 @Component({
   selector: 'app-create-category',
@@ -17,12 +20,13 @@ export class CreateCategoryComponent {
   @Input() categoryId: string |null = null
 
   @Output() hiddenChange: EventEmitter<boolean> = new EventEmitter()
+  @Output() categoryChange: EventEmitter<boolean> = new EventEmitter()
 
   parentCategory: Category | null = null
 
   possibleParents: Category[] = []
 
-  constructor(private capitegoryService: CapitegoryService) {}
+  constructor(private capitegoryService: CapitegoryService, private popupService: PopupService) {}
 
   categoryForm = new FormGroup({
       name : new FormControl(''),
@@ -33,10 +37,30 @@ export class CreateCategoryComponent {
 
   async ngOnInit() {
     if (this.parentId != null) {
+      try {
       this.parentCategory = await this.capitegoryService.getById(this.parentId);
+      }
+      catch(error) {
+        if(error instanceof ServerError) {
+          this.popupService.openError(error.message)
+        } else if(error instanceof BadRequestError) {
+          this.popupService.openWarning(error.message)
+        }
+        return;
+      }
     }
     if (this.editMode) {
-      this.possibleParents = await this.capitegoryService.getAll();
+      try {
+        this.possibleParents = await this.capitegoryService.getAll();
+      }
+      catch(error) {
+        if(error instanceof ServerError) {
+          this.popupService.openError(error.message)
+        } else if(error instanceof BadRequestError) {
+          this.popupService.openWarning(error.message)
+        }
+        return;
+      }
     }
   }
 
@@ -49,17 +73,41 @@ export class CreateCategoryComponent {
   }
 
   createCategory(): void {
-    this.capitegoryService.create(this.categoryForm.value.name ?? "", this.parentId);
+    try {
+      this.capitegoryService.create(this.categoryForm.value.name ?? "", this.parentId);
+    }
+    catch(error) {
+      if(error instanceof ServerError) {
+        this.popupService.openError(error.message)
+      } else if(error instanceof BadRequestError) {
+        this.popupService.openWarning(error.message)
+      }
+      return;
+    }
     this.categoryForm.reset();
-    window.location.reload();
+    this.categoryChange.emit(true);
+    this.hiddenChange.emit(true);
+    this.popupService.openSuccess("Your new category has been successfully created")
   }
 
   editCategory(): void {
-    this.capitegoryService.update(this.categoryId ?? "", 
-      this.categoryForm.value.name == "" || this.categoryForm.value.name == undefined ? null : this.categoryForm.value.name, 
-      this.categoryForm.value.parents == "" ? null : this.categoryForm.value.parents)
+    try {
+      this.capitegoryService.update(this.categoryId ?? "", 
+        this.categoryForm.value.name == "" || this.categoryForm.value.name == undefined ? null : this.categoryForm.value.name, 
+        this.categoryForm.value.parents == "" ? null : this.categoryForm.value.parents)
+    }
+    catch(error) {
+      if(error instanceof ServerError) {
+        this.popupService.openError(error.message)
+      } else if(error instanceof BadRequestError) {
+        this.popupService.openWarning(error.message)
+      }
+      return;
+    }
     this.categoryForm.reset();
-    window.location.reload();
+    this.categoryChange.emit(true);
+    this.hiddenChange.emit(true);
+    this.popupService.openSuccess("Your category has been successfully edited")
   }
 
   hidePopup(): void {
