@@ -40,7 +40,6 @@ button {
     display: flex;
     flex-direction: row;
     height: 90%;
-    overflow: hidden;
 }
 
 .list {
@@ -131,9 +130,12 @@ aside {
     position: absolute;
 }
 
-.nav-button > button {
-    cursor: pointer;
-    transition: width 2s, height 2s, transform 2s;
+.nav-button {
+    overflow: hidden;
+    & > button {
+        cursor: pointer;
+        transition: width 2s, height 2s, transform 2s;
+    }
 }
 
 #plus:hover {
