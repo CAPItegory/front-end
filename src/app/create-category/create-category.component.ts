@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CapitegoryService } from '../service/capitegory.service';
@@ -36,32 +36,19 @@ export class CreateCategoryComponent {
   parents: Category[] | null = null
 
   async ngOnInit() {
-    if (this.parentId != null) {
-      try {
-      this.parentCategory = await this.capitegoryService.getById(this.parentId);
-      }
-      catch(error) {
-        if(error instanceof ServerError) {
-          this.popupService.openError(error.message)
-        } else if(error instanceof BadRequestError) {
-          this.popupService.openWarning(error.message)
-        }
-        return;
-      }
-    }
     if (this.editMode) {
       try {
         this.possibleParents = await this.capitegoryService.getAll();
       }
       catch(error) {
-        if(error instanceof ServerError) {
-          this.popupService.openError(error.message)
-        } else if(error instanceof BadRequestError) {
-          this.popupService.openWarning(error.message)
-        }
+       this.manageError(error)
         return;
       }
     }
+  }
+
+  async ngOnChanges(changes: SimpleChanges) {
+    this.loadCategory(changes['parentId']?.currentValue)
   }
 
   manageCategory(): void {
@@ -71,6 +58,8 @@ export class CreateCategoryComponent {
       this.createCategory()
     }
   }
+
+
 
   async createCategory(): Promise<void> {
     this.hiddenChange.emit(true);
@@ -89,6 +78,9 @@ export class CreateCategoryComponent {
     this.categoryChange.emit(true);
     this.popupService.openSuccess("Your new category has been successfully created")
   }
+
+
+
 
   async editCategory(): Promise<void> {
     this.hiddenChange.emit(true);
@@ -110,7 +102,29 @@ export class CreateCategoryComponent {
     this.popupService.openSuccess("Your category has been successfully edited")
   }
 
+
+
   hidePopup(): void {
     this.hiddenChange.emit(true)
+  }
+
+  private manageError(error: unknown) {
+    if(error instanceof ServerError) {
+      this.popupService.openError(error.message)
+    } else if(error instanceof BadRequestError) {
+      this.popupService.openWarning(error.message)
+    }
+  }
+
+  private async loadCategory(id: string) {
+    if (id != null) {
+      try {
+      this.parentCategory = await this.capitegoryService.getById(id);
+      }
+      catch(error) {
+        this.manageError(error)
+        return;
+      }
+    }
   }
 }
