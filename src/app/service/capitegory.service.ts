@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { Category } from "../entity/category.entity";
 import { METHODS } from "node:http";
 import { PaginatedCategories } from "../entity/paginated-categories.entity";
+import { environment } from "../../environments/environment.development";
 
 @Injectable({
     providedIn: "root"
 })
 export class CapitegoryService 
 {
-    private apiUrl : string = "http://localhost:4200/api/category/"; //TODO : env variable
+    private apiUrl : string = environment.apiUrl;
 
     public async getAll() : Promise<Category[]>
     {
