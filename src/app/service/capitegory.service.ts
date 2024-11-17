@@ -35,8 +35,8 @@ export class CapitegoryService
             .then(async res => {
                 if(!res.ok) {
                     switch(res.status) {
-                        case HttpStatusCode.BadRequest : throw new BadRequestError(await res.json()) 
-                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                        case HttpStatusCode.BadRequest : throw new BadRequestError(await res.text()) 
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.text())
                     }
                 }
                 return res
@@ -56,8 +56,8 @@ export class CapitegoryService
             .then(async res => {
                 if(!res.ok) {
                     switch(res.status) {
-                        case HttpStatusCode.NotFound : throw new BadRequestError(await res.json())
-                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                        case HttpStatusCode.NotFound : throw new BadRequestError(await res.text())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.text())
                     }
                 }
                 return res
@@ -87,11 +87,10 @@ export class CapitegoryService
             .then(async res => {
                 if(!res.ok) {
                     switch(res.status) {
-                        case HttpStatusCode.BadRequest : throw new BadRequestError(await res.json())
-                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                        case HttpStatusCode.BadRequest : throw new BadRequestError(await res.text())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.text())
                     }
                 }
-                return res
             })
     }
 
@@ -103,8 +102,8 @@ export class CapitegoryService
             .then(async res => {
                 if(!res.ok) {
                     switch(res.status) {
-                        case HttpStatusCode.NotFound : throw new BadRequestError(await res.json())
-                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                        case HttpStatusCode.NotFound : throw new BadRequestError(await res.text())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.text())
                     }
                 }
                 return res
@@ -147,7 +146,7 @@ export class CapitegoryService
             .then(async res => {
                 if(!res.ok) {
                     switch(res.status) {
-                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.text())
                     }
                 }
                 return res
