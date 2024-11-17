@@ -8,13 +8,13 @@ import { ServerError } from '../exceptions/server.exception';
 import { BadRequestError } from '../exceptions/bad-request.exception';
 
 @Component({
-  selector: 'app-create-category',
+  selector: 'app-category-management',
   standalone: true,
   imports: [ReactiveFormsModule],
-  templateUrl: './create-category.component.html',
-  styleUrl: './create-category.component.scss'
+  templateUrl: './category-management.component.html',
+  styleUrl: './category-management.component.scss'
 })
-export class CreateCategoryComponent {
+export class CategoryManagementComponent {
   @Input() parentId: string | null = null
   @Input() editMode: boolean = false
   @Input() categoryId: string |null = null

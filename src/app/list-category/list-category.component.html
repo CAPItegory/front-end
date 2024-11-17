@@ -54,8 +54,8 @@
 </aside>
 
 <div id="create-category-popup" [hidden]="isHiddenPopUp">
-    <app-create-category [parentId]="id" (hiddenChange)="hidePopUp()" (categoryChange)="loadChildren()"></app-create-category>
+    <app-category-management [parentId]="id" (hiddenChange)="hidePopUp()" (categoryChange)="loadChildren()"></app-category-management>
 </div>
 <div id="edit-category-popup" [hidden]="isHiddenEditPopUp">
-    <app-create-category [editMode]="true" [categoryId]="selectedChild" (hiddenChange)="hidePopUp()" (categoryChange)="loadChildren()"></app-create-category>
+    <app-category-management [editMode]="true" [categoryId]="selectedChild" (hiddenChange)="hidePopUp()" (categoryChange)="loadChildren()"></app-category-management>
 </div>

@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CapitegoryService } from '../service/capitegory.service';
 import { Category } from '../entity/category.entity';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { CreateCategoryComponent } from "../create-category/create-category.component";
+import { CategoryManagementComponent } from "../category-management/category-management.component";
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { PaginationBarComponent } from '../pagination-bar/pagination-bar.component';
 import { NgToastService } from 'ng-angular-popup';
@@ -13,7 +13,7 @@ import { PopupService } from '../service/popup.service';
 @Component({
   selector: 'app-list-category',
   standalone: true,
-  imports: [RouterLink, SearchBarComponent, PaginationBarComponent, CreateCategoryComponent],
+  imports: [RouterLink, SearchBarComponent, PaginationBarComponent, CategoryManagementComponent],
   templateUrl: './list-category.component.html',
   styleUrl: './list-category.component.scss'
 })
