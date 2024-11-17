@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Category } from "../entity/category.entity";
 import { PaginatedCategories } from "../entity/paginated-categories.entity";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 import { ServerError } from "../exceptions/server.exception";
 import { HttpStatusCode } from "@angular/common/http";
 import { BadRequestError } from "../exceptions/bad-request.exception";

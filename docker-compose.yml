@@ -1,0 +1,8 @@
+services:
+  capitegory-front:
+    container_name: capitegory-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "4200:4200"
