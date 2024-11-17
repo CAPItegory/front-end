@@ -73,6 +73,7 @@ export class CreateCategoryComponent {
   }
 
   async createCategory(): Promise<void> {
+    this.hiddenChange.emit(true);
     try {
       await this.capitegoryService.create(this.categoryForm.value.name ?? "", this.parentId);
     }
@@ -86,11 +87,11 @@ export class CreateCategoryComponent {
     }
     this.categoryForm.reset();
     this.categoryChange.emit(true);
-    this.hiddenChange.emit(true);
     this.popupService.openSuccess("Your new category has been successfully created")
   }
 
   async editCategory(): Promise<void> {
+    this.hiddenChange.emit(true);
     try {
       await this.capitegoryService.update(this.categoryId ?? "", 
         this.categoryForm.value.name == "" || this.categoryForm.value.name == undefined ? null : this.categoryForm.value.name, 
@@ -104,9 +105,8 @@ export class CreateCategoryComponent {
       }
       return;
     }
-    this.categoryForm.reset();
     this.categoryChange.emit(true);
-    this.hiddenChange.emit(true);
+    this.categoryForm.reset();
     this.popupService.openSuccess("Your category has been successfully edited")
   }
 
