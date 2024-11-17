@@ -19,7 +19,8 @@
             <label>
                 <span>Parent : </span>
                 <select formControlName="parents">
-                    <option value="">No parent</option>
+                    <option value=""> - </option>
+                    <option value="no_parent">No parent</option>
                     @for (parent of possibleParents; track $index) {
                         <option value="{{parent.id}}">{{parent.name}}</option>
                     }

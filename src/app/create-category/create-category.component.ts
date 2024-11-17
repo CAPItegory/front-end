@@ -85,9 +85,11 @@ export class CreateCategoryComponent {
   async editCategory(): Promise<void> {
     this.hiddenChange.emit(true);
     try {
+      let name = this.categoryForm.value.name;
+      let parent = this.categoryForm.value.parents;
       await this.capitegoryService.update(this.categoryId ?? "", 
-        this.categoryForm.value.name == "" || this.categoryForm.value.name == undefined ? null : this.categoryForm.value.name, 
-        this.categoryForm.value.parents == "" ? null : this.categoryForm.value.parents)
+        name == "" || name == undefined ? null : name, 
+        parent == "" ? null : parent == "no_parent" ? "" : parent)
     }
     catch(error) {
       if(error instanceof ServerError) {
