@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="img_column">
-                <img src="../../assets/trash-icon.svg" (click)="deleteCategory(category.id)"/>
+                <img src="../../assets/trash-icon.svg" (click)="deleteCategory(category.id)" />
             </div>
             <div class="img_column">
                 <img src="../../assets/edit.svg" (click)="showEditPopUp(category.id)"/>
@@ -54,8 +54,8 @@
 </aside>
 
 <div id="create-category-popup" [hidden]="isHiddenPopUp">
-    <app-create-category [parentId]="id" (hiddenChange)="hidePopUp()"></app-create-category>
+    <app-create-category [parentId]="id" (hiddenChange)="hidePopUp()" (categoryChange)="loadChildren()"></app-create-category>
 </div>
 <div id="edit-category-popup" [hidden]="isHiddenEditPopUp">
-    <app-create-category [editMode]="true" [categoryId]="selectedChild" (hiddenChange)="hidePopUp()"></app-create-category>
+    <app-create-category [editMode]="true" [categoryId]="selectedChild" (hiddenChange)="hidePopUp()" (categoryChange)="loadChildren()"></app-create-category>
 </div>

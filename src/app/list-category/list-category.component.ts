@@ -5,6 +5,10 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CreateCategoryComponent } from "../create-category/create-category.component";
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { PaginationBarComponent } from '../pagination-bar/pagination-bar.component';
+import { NgToastService } from 'ng-angular-popup';
+import { ServerError } from '../exceptions/server.exception';
+import { BadRequestError } from '../exceptions/bad-request.exception';
+import { PopupService } from '../service/popup.service';
 
 @Component({
   selector: 'app-list-category',
@@ -34,7 +38,7 @@ export class ListCategoryComponent {
   childrenCategory: Category[] = []
   selectedChild: string | null = null
 
-  constructor(private capitegoryService: CapitegoryService, private activatedRoute : ActivatedRoute) {}
+  constructor(private capitegoryService: CapitegoryService, private activatedRoute : ActivatedRoute, private popupService : PopupService) {}
 
   async ngOnInit() {
     this.activatedRoute.paramMap.subscribe(async (params) => {
@@ -64,6 +68,7 @@ export class ListCategoryComponent {
   async onNewOrderByNameValue(newValue: boolean) {
     this.orderByName = newValue;
     this.loadChildren()
+    
   }
 
   async onNewOrderByCreationDate(newValue: boolean) {
@@ -96,9 +101,20 @@ export class ListCategoryComponent {
     history.back()
   }
 
-  deleteCategory(id: string) {
-    this.capitegoryService.delete(id)
-    window.location.reload();
+  async deleteCategory(id: string) {
+    try {
+      await this.capitegoryService.delete(id)
+    }
+    catch (error) {
+      if(error instanceof ServerError) {
+        this.popupService.openError(error.message)
+      } else if(error instanceof BadRequestError) {
+        this.popupService.openWarning(error.message)
+      }
+      return;
+    }
+    this.loadChildren();
+    this.popupService.openSuccess("The category has been successfully deleted")
   }
 
   pageChange(pageNumber: number) {
@@ -106,8 +122,11 @@ export class ListCategoryComponent {
     this.loadChildren();
   }
 
-  private async loadChildren() {
-    var paginatedCategories = await this.capitegoryService.search(
+  protected async loadChildren() {
+    var paginatedCategories
+    
+    try {
+      paginatedCategories = await this.capitegoryService.search(
       this.isRoot, 
       this.beforeDate, 
       this.afterDate, 
@@ -117,8 +136,19 @@ export class ListCategoryComponent {
       this.orderByNumberOfChild, 
       this.pageNumber, 
       this.pageSize);
+    }
+    catch(error) {
+      if(error instanceof ServerError) {
+        this.popupService.openError(error.message)
+      } else if(error instanceof BadRequestError) {
+        this.popupService.openWarning(error.message)
+      }
+      return;
+    }
     this.childrenCategory = paginatedCategories.categories;
     this.totalPages = paginatedCategories.totalPages;
   }
+
+  
 
 }
