@@ -2,6 +2,9 @@ import { Injectable } from "@angular/core";
 import { Category } from "../entity/category.entity";
 import { METHODS } from "node:http";
 import { PaginatedCategories } from "../entity/paginated-categories.entity";
+import { ServerError } from "../exceptions/server.exception";
+import { HttpStatusCode } from "@angular/common/http";
+import { BadRequestError } from "../exceptions/bad-request.exception";
 
 @Injectable({
     providedIn: "root"
@@ -16,7 +19,7 @@ export class CapitegoryService
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
-                    return null;
+                    throw new ServerError("Invalid response")
                 }
                 return res
             })
@@ -29,10 +32,19 @@ export class CapitegoryService
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({name: name, parent: parentId}),
         })
+            .then(async res => {
+                if(!res.ok) {
+                    switch(res.status) {
+                        case HttpStatusCode.BadRequest : throw new BadRequestError(await res.json()) 
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                    }
+                }
+                return res
+            })
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
-                    return null;
+                    throw new ServerError("Invalid response")
                 }
                 return this.toCategory(res)
             })
@@ -41,10 +53,19 @@ export class CapitegoryService
     public async getById(id: string) : Promise<Category | null>
     {
         return await fetch(this.apiUrl + id)
+            .then(async res => {
+                if(!res.ok) {
+                    switch(res.status) {
+                        case HttpStatusCode.NotFound : throw new BadRequestError(await res.json())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                    }
+                }
+                return res
+            })
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
-                    return null;
+                    throw new ServerError("Invalid response")
                 }
                 return this.toCategory(res)
             })
@@ -63,6 +84,15 @@ export class CapitegoryService
             headers: {"Content-Type": "application/json"},
             body: query,
         })
+            .then(async res => {
+                if(!res.ok) {
+                    switch(res.status) {
+                        case HttpStatusCode.BadRequest : throw new BadRequestError(await res.json())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                    }
+                }
+                return res
+            })
     }
 
     public async delete(id: string)
@@ -70,6 +100,15 @@ export class CapitegoryService
         await fetch(this.apiUrl + id, { 
             method: "DELETE",
         })
+            .then(async res => {
+                if(!res.ok) {
+                    switch(res.status) {
+                        case HttpStatusCode.NotFound : throw new BadRequestError(await res.json())
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                    }
+                }
+                return res
+            })
     }
 
     public async search(isRoot: boolean|null = null, beforeDate: Date|null = null, afterDate: Date|null = null, parentId: string|null = null, 
@@ -105,6 +144,14 @@ export class CapitegoryService
             params.append("PageSize", pageSize.valueOf().toString())
         }
         return await fetch(this.apiUrl + "search?" + params)
+            .then(async res => {
+                if(!res.ok) {
+                    switch(res.status) {
+                        case HttpStatusCode.InternalServerError : throw new ServerError(await res.json())
+                    }
+                }
+                return res
+            })
             .then(res => res.ok ? res.json() : null)
             .then(res => {
                 if (res == null) {
