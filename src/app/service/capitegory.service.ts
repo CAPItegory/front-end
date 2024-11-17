@@ -137,7 +137,7 @@ export class CapitegoryService
             params.append("OrderByCreationDate", orderbyCreationDate.valueOf().toString())
         }
         if (orderByNumberOfChildren != null) {
-            params.append("OrderByNumberOfChildren", orderByNumberOfChildren.valueOf().toString())
+            params.append("OrderByNumberOfChild", orderByNumberOfChildren.valueOf().toString())
         }
         if (pageNumber != null) {
             params.append("PageNumber", pageNumber.valueOf().toString())
