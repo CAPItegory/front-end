@@ -117,7 +117,7 @@ export class ListCategoryComponent {
       this.pageNumber, 
       this.pageSize);
     this.childrenCategory = paginatedCategories.categories;
-    this.totalPages = paginatedCategories.numberOfPage;
+    this.totalPages = paginatedCategories.totalPages;
   }
 
 }

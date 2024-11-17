@@ -114,7 +114,7 @@ export class CapitegoryService
                 for(let id in res.categories) {
                     categories.push(this.toCategory(res.categories[id]))
                 }
-                return new PaginatedCategories(categories, res.numberOfPage, res.pageSize, res.pageNumber)
+                return new PaginatedCategories(categories, res.totalPages, res.pageSize, res.pageNumber)
             })
     }
 
